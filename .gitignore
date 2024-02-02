@@ -1,3 +1,7 @@
 
 css/.DS_Store
 .DS_Store
+*.vsidx
+.vs/crluehmann.github.io/config/applicationhost.config
+.vs/slnx.sqlite
+.vs/crluehmann.github.io/v17/.wsuo
