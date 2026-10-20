@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chris Luehmann</title>
 <meta name="description" content="Chris Luehmann — Product Owner at Jack Henry building next-generation fintech systems. Six years turning TireHub's B2B platform into best-in-class. Writes, reads, plays music, and ships the occasional side project.">
+<link rel="canonical" href="https://chrisluehmann.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Chris Luehmann">
+<meta property="og:title" content="Chris Luehmann">
+<meta property="og:description" content="I find where the process is fighting the people, and fix it. Product Owner at Jack Henry; writing on economics, biology, and the stories in between.">
+<meta property="og:url" content="https://chrisluehmann.com/">
+<meta property="og:image" content="https://chrisluehmann.com/images/favicon/android-chrome-512x512.png">
+<meta name="twitter:card" content="summary">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
@@ -199,6 +207,8 @@
   }
   .p-card:nth-child(2){ border-top-color:var(--accent); }
   .p-card:nth-child(3){ border-top-color:var(--ink-faint); }
+  .p-card.wide{ grid-column:span 2; }
+  @media (max-width:560px){ .p-card.wide{ grid-column:auto; } }
   .p-card:hover{ transform:translateY(-3px) rotate(-0.4deg); box-shadow:0 14px 26px -16px var(--shadow); }
   .p-top{display:flex; justify-content:space-between; align-items:center; gap:8px;}
   .p-card h3{font-size:1.05rem; font-weight:600; font-family:"Public Sans",sans-serif;}
@@ -220,6 +230,7 @@
     <nav class="top-nav">
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
+      <a href="#writing">Writing</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -377,6 +388,23 @@
     </div>
   </section>
 
+  <section id="writing" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Writing</p>
+      <h2>Reading outside my lane, out loud</h2>
+    </div>
+    <div class="project-grid">
+      <div class="p-card wide">
+        <div class="p-top">
+          <h3>Hype or Reality</h3>
+          <span class="pill progress">Drafting</span>
+        </div>
+        <p>AI valuations, a $250k car reservation, and a stock gift to every kid in America — set against Sapolsky, Levin, and Hofstadter on what a self is. The economy, like a person, is a story many smaller agents tell together.</p>
+        <span class="p-link">Newsletter coming soon</span>
+      </div>
+    </div>
+  </section>
+
   <section id="projects" class="wrap">
     <div class="section-head">
       <p class="eyebrow">Projects</p>
@@ -394,9 +422,9 @@
       <a class="p-card" href="https://github.com/crluehmann/crluehmann.github.io" target="_blank" rel="noopener">
         <div class="p-top">
           <h3>This Site</h3>
-          <span class="pill progress">Rebuilding</span>
+          <span class="pill plain">Hand-built</span>
         </div>
-        <p>The page you're looking at — mid-rebuild, from a 2015-era template to this.</p>
+        <p>The page you're looking at — rebuilt in 2026 from a 2015-era template into plain HTML and CSS, no framework.</p>
         <span class="p-link">view source ↗</span>
       </a>
       <a class="p-card" href="https://github.com/crluehmann" target="_blank" rel="noopener">
@@ -428,7 +456,7 @@
           <svg viewBox="0 0 24 24"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13Zm2.2.5 7.8 6.2L19.8 6H4.2Zm15.8 1.6-7.5 6-.6.4-.6-.4-7.5-6V18h16.2V7.6Z"/></svg>
         </a>
       </div>
-      <p class="footer-copy">© Chris Luehmann <script>document.write(new Date().getFullYear())</script> — <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">CC BY 4.0</a></p>
+      <p class="footer-copy">© Chris Luehmann 2026 — <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">CC BY 4.0</a></p>
     </div>
   </footer>
 </main>
