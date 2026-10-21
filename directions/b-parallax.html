@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chris Luehmann — Direction B: Parallax</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Direction B: depth perception. Two "eyes" (cyan, amber) see the name
+     from slightly different positions; scrolling brings them into focus.
+     Background words drift slower than the content: literal parallax.
+     All motion stops under prefers-reduced-motion. */
+  :root{
+    --bg:#0c0f14; --bg-2:#121722; --ink:#e9edf3; --ink-2:#a7b0be; --ink-3:#6b7586;
+    --line:#222a37; --left:#4fd1e8; --right:#f2a65a;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f5f6f8; --bg-2:#ffffff; --ink:#121722; --ink-2:#4a5466; --ink-3:#8590a2;
+           --line:#dfe3ea; --left:#0f8fa6; --right:#c26a1c; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font:400 17px/1.6 "Space Grotesk", system-ui, sans-serif; overflow-x:hidden}
+  .mono{font-family:"JetBrains Mono", ui-monospace, monospace}
+  a{color:inherit; text-decoration:none; border-bottom:1px solid var(--line)}
+  a:hover{border-bottom-color:var(--left)}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px; position:relative; z-index:2}
+
+  /* the far layer */
+  .far{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  .far span{position:absolute; font-weight:700; font-size:22vw; line-height:1; color:transparent;
+            -webkit-text-stroke:1px var(--line); white-space:nowrap; will-change:transform}
+
+  header.top{position:sticky; top:0; z-index:5; backdrop-filter:blur(8px);
+             background:color-mix(in srgb, var(--bg) 82%, transparent); border-bottom:1px solid var(--line)}
+  .bar{max-width:980px; margin:0 auto; padding:12px 20px; display:flex; justify-content:space-between; gap:12px; font-size:13px}
+  .bar nav{display:flex; gap:16px; flex-wrap:wrap}
+  .bar nav a{border:0; color:var(--ink-2)} .bar nav a:hover{color:var(--ink)}
+
+  .hero{min-height:88vh; display:flex; flex-direction:column; justify-content:center; padding:60px 0}
+  .eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+  h1{font-size:clamp(48px,10vw,120px); line-height:.95; margin:14px 0 18px; letter-spacing:-.03em; position:relative}
+  h1 .eye{position:absolute; inset:0; mix-blend-mode:screen; pointer-events:none}
+  @media (prefers-color-scheme: light){ h1 .eye{mix-blend-mode:multiply; opacity:.55} }
+  h1 .l{color:var(--left)} h1 .r{color:var(--right)}
+  h1 .fused{position:relative}
+  .lede{font-size:clamp(20px,2.4vw,26px); max-width:30ch; color:var(--ink-2); margin:0}
+  .thesis{margin-top:28px; font-size:15px; color:var(--ink-3)}
+  .thesis b{color:var(--ink); font-weight:500}
+
+  section{padding:72px 0}
+  .label{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--left); margin:0 0 6px}
+  h2{font-size:clamp(28px,4vw,44px); line-height:1.1; margin:0 0 26px; letter-spacing:-.02em}
+  p{max-width:62ch}
+
+  .panes{display:grid; gap:14px}
+  .pane{background:var(--bg-2); border:1px solid var(--line); border-radius:14px; padding:18px 20px;
+        display:grid; grid-template-columns:64px 1fr; gap:6px 16px; will-change:transform}
+  .pane .no{font-size:13px; color:var(--right); grid-row:span 3}
+  .pane h3{margin:0; font-size:18px; font-weight:500}
+  .pane .when{font-size:12px; color:var(--ink-3)}
+  .pane dl{margin:6px 0 0; display:grid; grid-template-columns:auto 1fr; gap:4px 12px; font-size:15px; color:var(--ink-2)}
+  .pane dt{font:500 11px "JetBrains Mono", monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); padding-top:4px}
+  .pane dd{margin:0}
+  @media (max-width:560px){ .pane{grid-template-columns:1fr} .pane .no{grid-row:auto} }
+
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  @media (max-width:820px){ .cards{grid-template-columns:1fr} }
+  .card{background:var(--bg-2); border:1px solid var(--line); border-radius:14px; padding:20px}
+  .card .tag{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--right)}
+  .card h3{margin:8px 0 6px; font-size:20px}
+  .card p{margin:0; color:var(--ink-2); font-size:15px}
+  .card.wide{grid-column:span 2} @media (max-width:820px){ .card.wide{grid-column:auto} }
+  .disclaimer{font-size:13px; color:var(--ink-3); margin-top:16px}
+
+  footer{border-top:1px solid var(--line); padding:32px 0 64px; font-size:13px; color:var(--ink-3)}
+  footer .links{display:flex; gap:18px; flex-wrap:wrap; margin-bottom:10px}
+  footer .links a{color:var(--ink-2)}
+</style>
+</head>
+<body>
+<div class="far" aria-hidden="true">
+  <span data-depth="0.15" style="top:8vh; left:-4vw">SCALES</span>
+  <span data-depth="0.08" style="top:62vh; left:30vw">AGENTS</span>
+  <span data-depth="0.22" style="top:140vh; left:-10vw">STORIES</span>
+  <span data-depth="0.12" style="top:230vh; left:20vw">RECEIPTS</span>
+</div>
+
+<header class="top"><div class="bar mono">
+  <span>chrisluehmann.com</span>
+  <nav><a href="#cases">Case files</a><a href="#writing">Writing</a><a href="#projects">Projects</a><a href="#contact">Contact</a></nav>
+</div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow mono">Product Owner · Atlanta, GA</span>
+    <h1 id="name"><span class="eye l" aria-hidden="true">Chris Luehmann</span><span class="eye r" aria-hidden="true">Chris Luehmann</span><span class="fused">Chris Luehmann</span></h1>
+    <p class="lede">I find where the process is fighting the people, and fix it.</p>
+    <p class="thesis mono"><b>Same problem, different scales.</b> Teams, software, markets, bodies: agents at different sizes trying to agree.</p>
+  </section>
+
+  <section id="cases">
+    <p class="label mono">Case files</p>
+    <h2>What I found, what I built</h2>
+    <div class="panes">
+      <article class="pane" data-depth="0.04"><span class="no mono">06</span><h3>Product Owner, Jack Henry</h3><span class="when mono">Jul 2026 – present</span>
+        <dl><dt>Found</dt><dd>Ambiguous business need stalls before it reaches production.</dd><dt>Building</dt><dd>Acceptance criteria, release readiness, automated grooming and release notes; co-leading the AI Bridge Collective.</dd></dl></article>
+      <article class="pane" data-depth="0.03"><span class="no mono">05</span><h3>Sr. Technical Business Analyst, Jack Henry</h3><span class="when mono">Mar 2024 – Jul 2026</span>
+        <dl><dt>Found</dt><dd>Vendor data from several core platforms didn't resolve against one contract.</dd><dt>Built</dt><dd>A normalized common response API and a Jira import pipeline.</dd></dl></article>
+      <article class="pane" data-depth="0.04"><span class="no mono">04</span><h3>Sr. Technical Business &amp; Systems Analyst, TireHub</h3><span class="when mono">Feb 2022 – Mar 2024</span>
+        <dl><dt>Found</dt><dd>Dealers couldn't compare performance; leadership had no standing picture of delivery.</dd><dt>Built</dt><dd>A dealer loyalty program and a 1,000-item backlog wall.</dd></dl></article>
+      <article class="pane" data-depth="0.03"><span class="no mono">03</span><h3>Technical Business Analyst, TireHub</h3><span class="when mono">Jun 2018 – Feb 2022</span>
+        <dl><dt>Found</dt><dd>A month before launch, orders had no way to flow.</dd><dt>Built</dt><dd>An in-house EDI translation engine, then payments and ERP sync.</dd></dl></article>
+      <article class="pane" data-depth="0.04"><span class="no mono">02</span><h3>Developer → Senior Developer, Bennett Thrasher</h3><span class="when mono">Apr 2016 – Jun 2018</span>
+        <dl><dt>Found</dt><dd>Thousands of tax-compliance PDFs built by hand.</dd><dt>Built</dt><dd>An automated generation system.</dd></dl></article>
+      <article class="pane" data-depth="0.03"><span class="no mono">01</span><h3>Streetcat Media &amp; University of Alabama</h3><span class="when mono">2012 – 2016</span>
+        <dl><dt>Did</dt><dd>Cloud ERP and process simulation; an MBA in strategy while teaching Plato to Darwin to E.O. Wilson.</dd></dl></article>
+    </div>
+  </section>
+
+  <section id="writing">
+    <p class="label mono">Writing · Dynamic Perception</p>
+    <h2>Where the story and the numbers part ways</h2>
+    <div class="cards">
+      <a class="card wide" href="https://dynamicperception.substack.com/" style="border-bottom:1px solid var(--line)">
+        <span class="tag mono">Drafting</span><h3>Hype or Reality</h3>
+        <p>A $250,000 place in line for a car that may never ship, a stock gift to every kid in America, and what a self is.</p></a>
+    </div>
+    <p class="disclaimer">All views and analysis are strictly personal and do not reflect the opinions or positions of anyone else.</p>
+  </section>
+
+  <section id="projects">
+    <p class="label mono">Projects</p>
+    <h2>Things I shipped on my own clock</h2>
+    <div class="cards">
+      <div class="card"><span class="tag mono">In progress</span><h3>Parallax</h3><p>A citation-anchored economic data desk. Every claim resolves to its source.</p></div>
+      <a class="card" href="https://community.obsidian.md/themes/report-writer" style="border-bottom:1px solid var(--line)"><span class="tag mono">Obsidian theme</span><h3>Report Writer</h3><p>LCD, e-ink and color e-ink display aesthetics.</p></a>
+      <a class="card" href="https://github.com/crluehmann/crluehmann.github.io" style="border-bottom:1px solid var(--line)"><span class="tag mono">Source</span><h3>This site</h3><p>Hand-built, hosted on GitHub Pages.</p></a>
+    </div>
+  </section>
+</main>
+
+<footer id="contact"><div class="wrap mono">
+  <div class="links"><a href="https://github.com/crluehmann">GitHub</a><a href="https://linkedin.com/in/crluehmann">LinkedIn</a><a href="https://mastodon.social/@crluehmann" rel="me">Mastodon</a><a href="https://dynamicperception.substack.com/">Substack</a><a href="mailto:crluehmann@gmail.com">Email</a></div>
+  © Chris Luehmann 2026 · CC BY 4.0
+</div></footer>
+
+<script>
+(() => {
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const l = document.querySelector("#name .l"), r = document.querySelector("#name .r");
+  const layers = [...document.querySelectorAll("[data-depth]")];
+  function frame() {
+    const y = window.scrollY, h = window.innerHeight;
+    // The eyes start apart and converge as the hero scrolls away: focus.
+    const start = Math.min(6, window.innerWidth / 160);  // narrower screens start closer
+    const off = still ? 0 : Math.max(0, start - (y / h) * start * 2);
+    l.style.transform = `translateX(${-off}px)`;
+    r.style.transform = `translateX(${off}px)`;
+    if (!still) for (const el of layers) el.style.transform = `translateY(${-y * Number(el.dataset.depth)}px)`;
+  }
+  frame();
+  if (!still) window.addEventListener("scroll", () => requestAnimationFrame(frame), { passive: true });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chris Luehmann — Direction A: Field Report</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Direction A: an e-paper field report. Borrows from Report Writer's
+     e-ink mode: warm paper, ink, one oxide accent, hairline rules. */
+  :root{
+    --paper:#f3efe6; --ink:#1d1c1a; --ink-2:#55524b; --ink-3:#8b867b;
+    --rule:#d9d2c3; --accent:#a8432a; --mark:#efe3c7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper:#1b1a18; --ink:#e7e2d6; --ink-2:#b3ad9f; --ink-3:#7d786d;
+           --rule:#36332d; --accent:#e0805f; --mark:#3a3122; }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--paper); color:var(--ink);
+       font:400 18px/1.6 "Source Serif 4", Georgia, serif;}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, monospace; letter-spacing:.02em}
+  .wrap{max-width:860px; margin:0 auto; padding:0 20px}
+  a{color:inherit; text-decoration-color:var(--accent); text-underline-offset:3px}
+  a:hover{color:var(--accent)}
+
+  header.masthead{border-bottom:2px solid var(--ink); padding:28px 0 14px}
+  .mast-row{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+            font-size:12px; color:var(--ink-2); text-transform:uppercase}
+  h1{font-weight:600; font-size:clamp(40px,7vw,64px); line-height:1.02; margin:18px 0 6px; letter-spacing:-.01em}
+  .standfirst{font-style:italic; font-size:clamp(20px,2.6vw,24px); color:var(--ink-2); margin:0 0 4px}
+  nav.toc{display:flex; gap:18px; flex-wrap:wrap; padding:12px 0; border-bottom:1px solid var(--rule); font-size:13px}
+  nav.toc a{text-decoration:none; color:var(--ink-2)}
+  nav.toc a:hover{color:var(--accent)}
+
+  section{padding:40px 0 8px; border-bottom:1px solid var(--rule)}
+  .sec-head{display:grid; grid-template-columns:72px 1fr; gap:12px; align-items:baseline; margin-bottom:14px}
+  .sec-num{font-size:13px; color:var(--accent)}
+  h2{font-size:26px; font-weight:600; margin:0}
+  .body{margin-left:84px}
+  @media (max-width:640px){ .sec-head{grid-template-columns:1fr} .body{margin-left:0} }
+
+  .thesis{font-size:clamp(22px,3vw,28px); line-height:1.35; margin:0 0 18px}
+  .thesis mark{background:var(--mark); color:inherit; padding:0 .15em}
+  .pull{border-left:3px solid var(--accent); padding:4px 0 4px 16px; color:var(--ink-2); font-style:italic; margin:22px 0}
+
+  table.cases{width:100%; border-collapse:collapse; font-size:16px}
+  table.cases th{font:500 11px "IBM Plex Mono", monospace; text-transform:uppercase; letter-spacing:.06em;
+                 color:var(--ink-3); text-align:left; border-bottom:1px solid var(--ink); padding:6px 10px 6px 0}
+  table.cases td{vertical-align:top; padding:12px 10px 12px 0; border-bottom:1px solid var(--rule)}
+  table.cases td.no{font:500 12px "IBM Plex Mono", monospace; color:var(--accent); white-space:nowrap}
+  table.cases .role{font-weight:600}
+  table.cases .when{display:block; font:400 12px "IBM Plex Mono", monospace; color:var(--ink-3); margin-top:2px}
+  @media (max-width:640px){
+    table.cases thead{display:none}
+    table.cases tr{display:block; border-bottom:1px solid var(--rule); padding:10px 0}
+    table.cases td{display:block; border:0; padding:4px 0}
+    table.cases td[data-k]::before{content:attr(data-k); display:block; font:500 11px "IBM Plex Mono", monospace;
+                                   color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em}
+  }
+
+  .entries{list-style:none; margin:0; padding:0}
+  .entries li{display:grid; grid-template-columns:150px 1fr; gap:16px; padding:12px 0; border-bottom:1px dotted var(--rule)}
+  .entries .k{font-size:12px; color:var(--ink-3); text-transform:uppercase}
+  .entries .k b{display:block; color:var(--accent); font-weight:500}
+  .entries h3{margin:0 0 2px; font-size:19px}
+  .entries p{margin:0; color:var(--ink-2); font-size:16px}
+  @media (max-width:640px){ .entries li{grid-template-columns:1fr; gap:4px} }
+
+  .disclaimer{font-size:13px; color:var(--ink-3); margin:14px 0 0}
+  footer{padding:28px 0 60px; font-size:13px; color:var(--ink-2)}
+  footer .links{display:flex; gap:18px; flex-wrap:wrap; margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="mast-row mono"><span>Field report · Atlanta, GA</span><span>Product Owner</span></div>
+    <h1>Chris Luehmann</h1>
+    <p class="standfirst">I find where the process is fighting the people, and fix it.</p>
+  </header>
+  <nav class="toc mono" aria-label="Sections">
+    <a href="#thesis">§1 Thesis</a><a href="#cases">§2 Case files</a><a href="#writing">§3 Writing</a>
+    <a href="#projects">§4 Projects</a><a href="#contact">§5 Contact</a>
+  </nav>
+
+  <section id="thesis">
+    <div class="sec-head"><span class="sec-num mono">§1</span><h2>Same problem, different scales</h2></div>
+    <div class="body">
+      <p class="thesis">Every system is agents at different scales trying to agree: <mark>teams, software, markets, bodies.</mark> I work on where they don't.</p>
+      <p>I've spent my career on the same problem at very different sizes: a pre-launch B2B platform, a small shop, systems moving millions of transactions a day. The tooling changes completely. The work doesn't.</p>
+      <p>Off the clock I read outside the usual product shelf (Sapolsky, James C. Scott, Donella Meadows, Michael Levin) because failure modes rhyme across organisms, institutions and release processes. Lately I write about where the story and the numbers part ways.</p>
+      <p class="pull">Most disagreements are definitional, and most bad systems are unexamined assumptions with a database attached.</p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <div class="sec-head"><span class="sec-num mono">§2</span><h2>Case files</h2></div>
+    <div class="body">
+      <table class="cases">
+        <thead><tr><th>No.</th><th>Role</th><th>Found</th><th>Built</th></tr></thead>
+        <tbody>
+          <tr><td class="no">06</td><td><span class="role">Product Owner, Jack Henry</span><span class="when">Jul 2026 – present</span></td>
+              <td data-k="Found">Ambiguous business need stalls before it reaches production.</td>
+              <td data-k="Building">Acceptance criteria, release readiness, automated grooming and release notes; co-leading the AI Bridge Collective.</td></tr>
+          <tr><td class="no">05</td><td><span class="role">Sr. Technical Business Analyst, Jack Henry</span><span class="when">Mar 2024 – Jul 2026</span></td>
+              <td data-k="Found">Vendor data from several core platforms didn't resolve against one contract.</td>
+              <td data-k="Built">A normalized common response API, and a Jira import pipeline from structured intake to ready stories.</td></tr>
+          <tr><td class="no">04</td><td><span class="role">Sr. Technical Business &amp; Systems Analyst, TireHub</span><span class="when">Feb 2022 – Mar 2024</span></td>
+              <td data-k="Found">Dealers couldn't compare performance; leadership had no standing picture of delivery.</td>
+              <td data-k="Built">A dealer loyalty program, a 1,000-item backlog wall updated weekly, company-wide Atlassian adoption.</td></tr>
+          <tr><td class="no">03</td><td><span class="role">Technical Business Analyst, TireHub</span><span class="when">Jun 2018 – Feb 2022</span></td>
+              <td data-k="Found">A month before launch, orders had no way to flow.</td>
+              <td data-k="Built">An in-house EDI translation engine, then payments, manufacturer data and ERP sync.</td></tr>
+          <tr><td class="no">02</td><td><span class="role">Developer → Senior Developer, Bennett Thrasher</span><span class="when">Apr 2016 – Jun 2018</span></td>
+              <td data-k="Found">Thousands of tax-compliance PDFs built by hand from spreadsheets.</td>
+              <td data-k="Built">An automated generation system, plus ERP and EDI work for enterprise clients.</td></tr>
+          <tr><td class="no">01</td><td><span class="role">Streetcat Media &amp; University of Alabama</span><span class="when">2012 – 2016</span></td>
+              <td data-k="Found" colspan="2">Enterprise architecture in cloud ERP and process simulation; an MBA in strategy while teaching a seminar from Plato to Darwin to E.O. Wilson.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="writing">
+    <div class="sec-head"><span class="sec-num mono">§3</span><h2>Writing</h2></div>
+    <div class="body">
+      <ul class="entries">
+        <li><span class="k mono"><b>Drafting</b>Dynamic Perception</span>
+            <div><h3><a href="https://dynamicperception.substack.com/">Hype or Reality</a></h3>
+            <p>A $250,000 place in line for a car that may never ship, a stock gift to every kid in America, and what a self is. The economy, like a person, is a story many smaller agents tell together.</p></div></li>
+      </ul>
+      <p class="disclaimer">All views and analysis are strictly personal and do not reflect the opinions or positions of anyone else.</p>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="sec-head"><span class="sec-num mono">§4</span><h2>Projects</h2></div>
+    <div class="body">
+      <ul class="entries">
+        <li><span class="k mono"><b>In progress</b>Data desk</span>
+            <div><h3>Parallax</h3><p>A citation-anchored economic data desk. Every claim resolves to the passage or filing it came from.</p></div></li>
+        <li><span class="k mono"><b>Live</b>Obsidian theme</span>
+            <div><h3><a href="https://community.obsidian.md/themes/report-writer">Report Writer</a></h3><p>Old-display aesthetics (LCD, e-ink, color e-ink) with a device/document typography split. In the community gallery.</p></div></li>
+        <li><span class="k mono"><b>Live</b>This site</span>
+            <div><h3><a href="https://github.com/crluehmann/crluehmann.github.io">Source</a></h3><p>Hand-built and hosted on GitHub Pages.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer id="contact" class="mono">
+    <div class="links">
+      <a href="https://github.com/crluehmann">GitHub</a><a href="https://linkedin.com/in/crluehmann">LinkedIn</a>
+      <a href="https://mastodon.social/@crluehmann" rel="me">Mastodon</a><a href="https://dynamicperception.substack.com/">Substack</a>
+      <a href="mailto:crluehmann@gmail.com">Email</a>
+    </div>
+    © Chris Luehmann 2026 · CC BY 4.0
+  </footer>
+</div>
+</body>
+</html>

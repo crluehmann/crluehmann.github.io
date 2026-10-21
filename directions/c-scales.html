@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chris Luehmann — Direction C: Scales</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap">
+<style>
+  /* Direction C: the page is a zoom. Each section is a scale (one person,
+     a team, an organization, a market) and a sticky ruler shows where you are.
+     The thesis is the navigation. */
+  :root{
+    --bg:#fbfaf7; --ink:#16201b; --ink-2:#4c5a52; --ink-3:#8a968f; --line:#e3e6df;
+    --accent:#1f6f54; --accent-soft:#e2efe8; --warm:#b5562f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#101513; --ink:#e7ede9; --ink-2:#a9b7af; --ink-3:#6f7d75; --line:#232c27;
+           --accent:#5fc49b; --accent-soft:#16261f; --warm:#e58b62; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font:400 17px/1.6 Inter, system-ui, sans-serif}
+  .serif{font-family:Newsreader, Georgia, serif}
+  a{color:inherit; text-decoration-color:var(--accent); text-underline-offset:3px}
+  .layout{max-width:1080px; margin:0 auto; padding:0 20px; display:grid; grid-template-columns:150px 1fr; gap:40px}
+  @media (max-width:760px){ .layout{grid-template-columns:1fr; gap:0} }
+
+  /* the ruler */
+  .rail{position:sticky; top:0; height:100vh; padding:40px 0; display:flex; flex-direction:column; justify-content:center}
+  @media (max-width:760px){ .rail{position:sticky; top:0; height:auto; z-index:5; padding:10px 0;
+         background:color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter:blur(6px); border-bottom:1px solid var(--line)} }
+  .rail ol{list-style:none; margin:0; padding:0 0 0 14px; border-left:2px solid var(--line); display:flex; flex-direction:column; gap:22px}
+  @media (max-width:760px){ .rail ol{flex-direction:row; border-left:0; padding:0; gap:14px; overflow-x:auto} }
+  .rail li a{text-decoration:none; display:block; color:var(--ink-3); font-size:13px; line-height:1.3; position:relative}
+  .rail li a small{display:block; font-size:11px; letter-spacing:.06em}
+  .rail li a::before{content:""; position:absolute; left:-21px; top:6px; width:12px; height:2px; background:var(--line)}
+  @media (max-width:760px){ .rail li a::before{display:none} }
+  .rail li a.on{color:var(--accent); font-weight:600}
+  .rail li a.on::before{background:var(--accent); width:18px}
+
+  main{padding:40px 0 80px}
+  section{min-height:70vh; padding:56px 0; border-bottom:1px solid var(--line)}
+  .scale{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin:0 0 10px}
+  h1{font-size:clamp(44px,7vw,80px); line-height:1; margin:0 0 18px; font-weight:600; letter-spacing:-.02em}
+  h2{font-size:clamp(28px,4vw,40px); line-height:1.15; margin:0 0 20px; font-weight:600}
+  .lede{font-size:clamp(21px,2.6vw,27px); line-height:1.35; max-width:30ch; margin:0 0 20px}
+  p{max-width:62ch}
+  .muted{color:var(--ink-2)}
+
+  .ticks{display:flex; align-items:flex-end; gap:0; margin:30px 0 8px; height:28px}
+  .ticks span{flex:1; border-left:1px solid var(--ink-3); height:40%}
+  .ticks span:nth-child(5n+1){height:100%}
+  .ticks-label{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-3); letter-spacing:.08em; text-transform:uppercase}
+
+  .quote{font-size:22px; line-height:1.4; border-left:3px solid var(--warm); padding-left:16px; margin:26px 0; max-width:40ch}
+
+  .cases{display:grid; gap:0}
+  .case{display:grid; grid-template-columns:44px 1fr; gap:4px 16px; padding:16px 0; border-top:1px solid var(--line)}
+  .case .no{font-size:13px; color:var(--warm); font-weight:600}
+  .case h3{margin:0; font-size:18px; font-weight:600}
+  .case .when{font-size:13px; color:var(--ink-3)}
+  .case p{grid-column:2; margin:4px 0 0; font-size:15px; color:var(--ink-2)}
+  .case p b{color:var(--ink); font-weight:600; font-size:12px; letter-spacing:.06em; text-transform:uppercase; margin-right:6px}
+
+  .tiles{display:grid; grid-template-columns:repeat(2,1fr); gap:14px}
+  @media (max-width:640px){ .tiles{grid-template-columns:1fr} }
+  .tile{background:var(--accent-soft); border-radius:12px; padding:20px; text-decoration:none; display:block}
+  .tile .tag{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:600}
+  .tile h3{margin:6px 0 4px; font-size:22px}
+  .tile p{margin:0; font-size:15px; color:var(--ink-2)}
+  .disclaimer{font-size:13px; color:var(--ink-3)}
+  footer{padding:30px 0 70px; font-size:14px; color:var(--ink-2)}
+  footer .links{display:flex; gap:18px; flex-wrap:wrap; margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="rail" aria-label="Scale">
+    <ol>
+      <li><a href="#person"><small>10⁰ m</small>One person</a></li>
+      <li><a href="#team"><small>10² m</small>Teams</a></li>
+      <li><a href="#org"><small>10⁵ m</small>Organizations</a></li>
+      <li><a href="#market"><small>10⁷ m</small>Markets</a></li>
+      <li><a href="#contact"><small>↺</small>Back to you</a></li>
+    </ol>
+  </aside>
+
+  <main>
+    <section id="person">
+      <p class="scale">Scale 1 · One person</p>
+      <h1 class="serif">Chris Luehmann</h1>
+      <p class="lede serif">I find where the process is fighting the people, and fix it.</p>
+      <p class="muted">Product Owner in Atlanta. Same problem, different scales: teams, software, markets and bodies are all agents of different sizes trying to agree. I work on where they don't.</p>
+      <div class="ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="ticks-label" aria-hidden="true"><span>person</span><span>team</span><span>organization</span><span>market</span></div>
+    </section>
+
+    <section id="team">
+      <p class="scale">Scale 2 · Teams</p>
+      <h2 class="serif">The work is always the same problem</h2>
+      <p>A pre-launch B2B platform, a small shop, systems moving millions of transactions a day. The tooling changes completely; the work doesn't. When the reporting didn't exist, I learned the tools and built it.</p>
+      <p class="quote serif">Most disagreements are definitional, and most bad systems are unexamined assumptions with a database attached.</p>
+    </section>
+
+    <section id="org">
+      <p class="scale">Scale 3 · Organizations</p>
+      <h2 class="serif">Case files</h2>
+      <div class="cases">
+        <div class="case"><span class="no">06</span><div><h3>Product Owner, Jack Henry</h3><span class="when">Jul 2026 – present</span></div>
+          <p><b>Found</b>Ambiguous business need stalls before it reaches production.</p><p><b>Building</b>Acceptance criteria, release readiness, automated grooming and release notes; co-leading the AI Bridge Collective.</p></div>
+        <div class="case"><span class="no">05</span><div><h3>Sr. Technical Business Analyst, Jack Henry</h3><span class="when">Mar 2024 – Jul 2026</span></div>
+          <p><b>Found</b>Vendor data from several core platforms didn't resolve against one contract.</p><p><b>Built</b>A normalized common response API and a Jira import pipeline.</p></div>
+        <div class="case"><span class="no">04</span><div><h3>Sr. Technical Business &amp; Systems Analyst, TireHub</h3><span class="when">Feb 2022 – Mar 2024</span></div>
+          <p><b>Found</b>Dealers couldn't compare performance; leadership had no standing picture of delivery.</p><p><b>Built</b>A dealer loyalty program and a 1,000-item backlog wall.</p></div>
+        <div class="case"><span class="no">03</span><div><h3>Technical Business Analyst, TireHub</h3><span class="when">Jun 2018 – Feb 2022</span></div>
+          <p><b>Found</b>A month before launch, orders had no way to flow.</p><p><b>Built</b>An in-house EDI translation engine, then payments and ERP sync.</p></div>
+        <div class="case"><span class="no">02</span><div><h3>Developer → Senior Developer, Bennett Thrasher</h3><span class="when">Apr 2016 – Jun 2018</span></div>
+          <p><b>Found</b>Thousands of tax-compliance PDFs built by hand.</p><p><b>Built</b>An automated generation system.</p></div>
+        <div class="case"><span class="no">01</span><div><h3>Streetcat Media &amp; University of Alabama</h3><span class="when">2012 – 2016</span></div>
+          <p>Cloud ERP and process simulation; an MBA in strategy while teaching a seminar from Plato to Darwin to E.O. Wilson.</p></div>
+      </div>
+    </section>
+
+    <section id="market">
+      <p class="scale">Scale 4 · Markets</p>
+      <h2 class="serif">Writing and tools</h2>
+      <div class="tiles">
+        <a class="tile" href="https://dynamicperception.substack.com/"><span class="tag">Dynamic Perception · drafting</span><h3 class="serif">Hype or Reality</h3>
+          <p>A $250,000 place in line for a car that may never ship, and what a self is.</p></a>
+        <div class="tile"><span class="tag">In progress</span><h3 class="serif">Parallax</h3><p>A citation-anchored economic data desk. Every claim resolves to its source.</p></div>
+        <a class="tile" href="https://community.obsidian.md/themes/report-writer"><span class="tag">Obsidian theme</span><h3 class="serif">Report Writer</h3><p>LCD, e-ink and color e-ink display aesthetics.</p></a>
+        <a class="tile" href="https://github.com/crluehmann/crluehmann.github.io"><span class="tag">Source</span><h3 class="serif">This site</h3><p>Hand-built, hosted on GitHub Pages.</p></a>
+      </div>
+      <p class="disclaimer">All views and analysis are strictly personal and do not reflect the opinions or positions of anyone else.</p>
+    </section>
+
+    <footer id="contact">
+      <div class="links"><a href="https://github.com/crluehmann">GitHub</a><a href="https://linkedin.com/in/crluehmann">LinkedIn</a><a href="https://mastodon.social/@crluehmann" rel="me">Mastodon</a><a href="https://dynamicperception.substack.com/">Substack</a><a href="mailto:crluehmann@gmail.com">Email</a></div>
+      © Chris Luehmann 2026 · CC BY 4.0
+    </footer>
+  </main>
+</div>
+<script>
+(() => {
+  const links = new Map([...document.querySelectorAll(".rail a")].map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting) {
+      links.forEach(a => a.classList.remove("on"));
+      links.get(e.target.id)?.classList.add("on");
+    }
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  links.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+})();
+</script>
+</body>
+</html>
